@@ -22,7 +22,7 @@ async function main() {
 
   console.log('all elves:', elfSums);
 
-  console.log('sum of highest three: ', sum(elfSums.slice(0, 3)));
+  console.log('sum of highest three: ', sum(elfSums.slice(-3)));
 }
 
 if (require.main === module) {
