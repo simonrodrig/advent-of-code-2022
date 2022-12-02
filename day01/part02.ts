@@ -18,7 +18,7 @@ async function main() {
 
   if (elf.length > 0) elves.push(elf);
 
-  const elfSums = numericSort(elves.map((e) => sum(e)));
+  const elfSums = numericSort(elves.map(e => sum(e)));
 
   console.log('all elves:', elfSums);
 
