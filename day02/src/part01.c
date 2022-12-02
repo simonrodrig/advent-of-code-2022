@@ -50,6 +50,7 @@ int main() {
     for (int i = 0; i < numPossibilities; i++) {
       if (strcmp(chomp(buf), possiblities[i].str) == 0) {
         score += possiblities[i].score;
+        break;
       }
     }
   }
