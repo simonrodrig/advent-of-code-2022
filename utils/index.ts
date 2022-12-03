@@ -11,3 +11,23 @@ export const rl = readline.createInterface({
   prompt: '',
   terminal: false,
 });
+
+export async function* everyNLines(rl: readline.Interface, n: number) {
+  if (n <= 0)
+    throw new Error('Please provide a positive number');
+
+  if (!Number.isInteger(n))
+    throw new Error('Please provide an integer');
+
+  let items: string[] = [];
+  for await (const line of rl) {
+    items.push(line);
+    if (items.length == n) {
+      yield items;
+      items = [];
+    }
+  }
+
+  if (items.length > 0)
+    throw new Error(`Some remaining input? ${items.join(', ')}`)
+}
