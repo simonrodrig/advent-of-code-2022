@@ -1,4 +1,4 @@
-import * as readline from 'readline';
+import readline from 'readline';
 
 export const sum = (nums: number[]) =>
   nums.reduce((acc, curr) => acc + curr, 0);
