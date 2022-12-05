@@ -1,50 +1,49 @@
-import readline from 'readline';
+import { Interface } from 'readline';
 import { rl } from '../utils';
 
-async function extractCrates(input: readline.Interface): Promise<string[][]> {
+async function extractCrates(input: Interface) {
   const lines: string[] = [];
   let crates: string[][] = [];
+
+  // regexes
   const indexPattern = /(\s*\d\s*)+/;
+  const cratePattern = /\[[A-Z]\]/;
 
   // Store all the lines, we'll be going in reverse order
-  for await (let line of rl) {
-    // We don't really need this line, so throw it away
+  for await (let line of input) {
+    // The line that tells us how many crates there are
     if (indexPattern.test(line)) {
       crates = new Array<string[]>(+(line.trim().at(-1) as string));
-    } else if (line.length == 0) {
+    }
+
+    // Acts as a separator between each phase
+    else if (line.length == 0) {
       break;
-    } else {
+    }
+
+    // Otherwise just push the lines to our array
+    else {
       lines.push(line);
     }
   }
 
+  // Initialize the crate arrays ourselves (blegh)
   for (let i = 0; i < crates.length; i++) {
     crates[i] = [];
   }
 
-  // console.log(lines);
-
+  // Helper function to give us useful slices
   const charSliceAmt = (count: number) => count * 4;
 
   for (const line of lines.reverse()) {
-    // console.log('line:', line);
-    for (
-      let sliceCount = 0;
-      charSliceAmt(sliceCount) < line.length;
-      sliceCount++
-    ) {
+    // Iterate through every slice
+    for (let count = 0; charSliceAmt(count) < line.length; count++) {
       // Obtain a 3-character slice of the line
-      const slice = line.slice(
-        charSliceAmt(sliceCount),
-        charSliceAmt(sliceCount) + 3
-      );
-
-      // console.log('slice:', slice);
+      const slice = line.slice(charSliceAmt(count), charSliceAmt(count) + 3);
 
       // Test if the slice is in the [A] format
-      if (/\[[A-Z]\]/.test(slice)) {
-        // console.log('sliceCount', sliceCount)
-        crates[sliceCount].push(slice[1]);
+      if (cratePattern.test(slice)) {
+        crates[count].push(slice[1]);
       }
     }
   }
@@ -53,13 +52,11 @@ async function extractCrates(input: readline.Interface): Promise<string[][]> {
   return crates;
 }
 
-async function processMoves(
-  input: readline.Interface,
-  crates: string[][]
-): Promise<string[][]> {
+async function processMoves(input: Interface, crates: string[][]) {
+  // regexes
   const movePattern = /move ([0-9]+) from ([0-9]+) to ([0-9]+)/;
 
-  for await (let line of rl) {
+  for await (let line of input) {
     line = line.trim();
 
     if (line.length == 0) {
@@ -89,7 +86,7 @@ async function processMoves(
           })`
         );
 
-      buffer.push(extactedCrate)
+      buffer.push(extactedCrate);
     }
     crates[+endCrate - 1].push(...buffer.reverse());
   }
