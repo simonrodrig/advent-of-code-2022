@@ -2,6 +2,7 @@
 import { readLines } from 'std/io/mod.ts';
 import * as flags from 'std/flags/mod.ts';
 import { bgGreen, bgRed, red } from 'std/fmt/colors.ts';
+import { coloredSlice } from '../utils/mod.ts';
 
 async function main(numUniqueChars: number) {
   for await (const line of readLines(Deno.stdin)) {
@@ -22,9 +23,7 @@ async function main(numUniqueChars: number) {
       if (seen.size == numUniqueChars) {
         console.log(
           `${
-            line.slice(0, idx - numUniqueChars) +
-            bgGreen(line.slice(idx + 1 - numUniqueChars, idx + 1)) +
-            line.slice(idx, line.length)
+            coloredSlice(line, idx - numUniqueChars + 1, idx + 1, bgGreen)
           } | Marker found after ${idx + 1} chars`,
         );
         break;
@@ -32,7 +31,6 @@ async function main(numUniqueChars: number) {
     }
   }
 }
-
 
 if (import.meta.main) {
   const f = flags.parse(Deno.args);
