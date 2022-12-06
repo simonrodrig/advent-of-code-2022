@@ -30,15 +30,14 @@ export async function* everyNLines(rl: Deno.Reader, n: number) {
   }
 }
 
-export function coloredSlice(
+export const coloredSlice = (
   str: string,
   startIdx: number,
   endIdx: number,
   color: ColorFunction,
-): string {
-  return `${
+) =>
+  `${
     str.slice(0, startIdx) +
     color(str.slice(startIdx, endIdx)) +
     str.slice(endIdx, str.length)
   }`;
-}
