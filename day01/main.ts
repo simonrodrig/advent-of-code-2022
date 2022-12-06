@@ -31,9 +31,8 @@ async function part02() {
   let currCal = 0;
 
   const updateThreeHighest = (cal: number) => {
-    const idx = highestCalElves.findIndex((c) =>
-      c === Math.min(...highestCalElves)
-    );
+    const min = Math.min(...highestCalElves);
+    const idx = highestCalElves.indexOf(min);
     highestCalElves[idx] = Math.max(highestCalElves[idx], cal);
   };
 
