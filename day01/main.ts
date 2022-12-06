@@ -3,6 +3,8 @@ import { readLines } from 'std/io/mod.ts';
 import * as flags from 'std/flags/mod.ts';
 import { bgRed, red } from 'std/fmt/colors.ts';
 
+import { sum } from 'utils';
+
 async function part01() {
   let highestCal = 0;
   let currCal = 0;
@@ -50,7 +52,7 @@ async function part02() {
     updateThreeHighest(currCal);
   }
 
-  console.log('Highest Three Elves:', highestCalElves.reduce((p, c) => p + c));
+  console.log('Highest Three Elves:', sum(highestCalElves));
 }
 
 if (import.meta.main) {
