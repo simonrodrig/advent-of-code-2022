@@ -36,8 +36,6 @@ export const coloredSlice = (
   endIdx: number,
   color: ColorFunction,
 ) =>
-  `${
-    str.slice(0, startIdx) +
-    color(str.slice(startIdx, endIdx)) +
-    str.slice(endIdx, str.length)
-  }`;
+  str.slice(0, startIdx) +
+  color(str.slice(startIdx, endIdx)) +
+  str.slice(endIdx, str.length);
