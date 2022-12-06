@@ -2,7 +2,7 @@
 import { readLines } from 'std/io/mod.ts';
 import * as flags from 'std/flags/mod.ts';
 import { bgGreen, bgRed, red } from 'std/fmt/colors.ts';
-import { coloredSlice } from '../utils/mod.ts';
+import { coloredSlice } from 'utils';
 
 async function main(numUniqueChars: number) {
   for await (const line of readLines(Deno.stdin)) {
