@@ -1,6 +1,7 @@
 #!/usr/bin/env -S deno run
 import { readLines } from 'std/io/mod.ts';
 import * as flags from 'std/flags/mod.ts';
+import { bgRed, red } from 'std/fmt/colors.ts';
 
 async function part01() {
   let highestCal = 0;
@@ -28,15 +29,17 @@ async function part02() {
   let currCal = 0;
 
   const updateThreeHighest = (cal: number) => {
-    const idx = highestCalElves.findIndex(c => c === Math.min(...highestCalElves));
+    const idx = highestCalElves.findIndex((c) =>
+      c === Math.min(...highestCalElves)
+    );
     highestCalElves[idx] = Math.max(highestCalElves[idx], cal);
-  }
+  };
 
   for await (let line of readLines(Deno.stdin)) {
     line = line.trim();
 
     if (line.length == 0) {
-      updateThreeHighest(currCal)
+      updateThreeHighest(currCal);
       currCal = 0;
     } else {
       currCal += +line;
@@ -44,7 +47,7 @@ async function part02() {
   }
 
   if (currCal != 0) {
-    updateThreeHighest(currCal)
+    updateThreeHighest(currCal);
   }
 
   console.log('Highest Three Elves:', highestCalElves.reduce((p, c) => p + c));
@@ -56,5 +59,8 @@ if (import.meta.main) {
     part01();
   } else if (f.part == 2) {
     part02();
+  } else {
+    console.error(bgRed('ERROR'), red('No part specified'));
+    Deno.exit(1);
   }
 }

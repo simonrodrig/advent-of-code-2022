@@ -6,6 +6,7 @@
     "https://deno.land/std@0.167.0/bytes/concat.ts": "97a1274e117510ffffc9499c4debb9541e408732bab2e0ca624869ae13103c10",
     "https://deno.land/std@0.167.0/bytes/copy.ts": "d14a58f188a997ee0d2ba696d0c82a42f4fb4b6705e90a4238b77d7644dae24c",
     "https://deno.land/std@0.167.0/flags/mod.ts": "4f50ec6383c02684db35de38b3ffb2cd5b9fcfcc0b1147055d1980c49e82521c",
+    "https://deno.land/std@0.167.0/fmt/colors.ts": "03ad95e543d2808bc43c17a3dd29d25b43d0f16287fe562a0be89bf632454a12",
     "https://deno.land/std@0.167.0/io/buffer.ts": "9d6f555ded12960bd5a44f57291a82270cca0a77bde6cadd1384a03a86bf876a",
     "https://deno.land/std@0.167.0/io/mod.ts": "6e781ebafd5cdccf9ab4afa1f499b08c513602d023cb08ceebc58758501f78bd",
     "https://deno.land/std@0.167.0/io/readers.ts": "3fae65bddcf0a87dce43e7dbb74b903f86bd1f18ceaf510f2684142587e0ef83",
