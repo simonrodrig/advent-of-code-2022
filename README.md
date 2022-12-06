@@ -2,7 +2,7 @@
 My solutions for [Advent of Code 2022](https://adventofcode.com/2022).
 
 ## Deno
-This branch is for my solutions written for (Deno)[https://deno.land], which is
+This branch is for my solutions written for [Deno](https://deno.land), which is
 a JavaScript/TypeScript alternative engine to Node.js. The main benefits of Deno
 over something like Node is a comprehensive Standard Library, built-in
 formatter, linter, task runner, and--most importantly--first-class support for
