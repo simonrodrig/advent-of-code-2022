@@ -43,6 +43,17 @@ export const coloredSlice = (
 /**
  * Port of Python's DefaultDict. Ends up being useful in a lot of situations
  * involving trees.
+ * 
+ * The ergonomics of this class are fairly similar to something like useState
+ * from React land, though this utilizes key-value pairs.
+ * 
+ * Example:
+ * > const ddict = new DefaultDict<number, number>(() => 0);
+ * undefined
+ * > ddict.get(0);
+ * 0
+ * > ddict.update(0, (curr) => curr - 5);
+ * -5
  */
 export class DefaultDict<T1, T2> {
   private constructorFn: () => T2;
@@ -64,5 +75,11 @@ export class DefaultDict<T1, T2> {
 
   set(key: T1, val: T2) {
     this.internalMap.set(key, val);
+    return val;
+  }
+
+  update(key: T1, updateFn: (currVal: T2) => T2) {
+    const val = this.get(key);
+    return this.set(key, updateFn(val));
   }
 }
