@@ -78,8 +78,11 @@ export class DefaultDict<T1, T2> {
     return val;
   }
 
-  update(key: T1, updateFn: (currVal: T2) => T2) {
+  update(key: T1, updateFn: ((currVal: T2) => T2) | undefined ) {
     const val = this.get(key);
-    return this.set(key, updateFn(val));
+    if (updateFn !== undefined)
+      return this.set(key, updateFn(val));
+    else
+      return this.set(key, val);
   }
 }
