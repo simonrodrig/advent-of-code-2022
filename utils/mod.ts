@@ -69,7 +69,7 @@ export class DefaultDict<T1, T2> {
     if (possibleVal) {
       return possibleVal;
     } else {
-      return this.constructorFn();
+      return this.set(key, this.constructorFn());
     }
   }
 
