@@ -98,7 +98,7 @@ function annotateDirSizes(tree: FileTree): number {
 }
 
 // @ts-ignore -- It's a generator that returns itself
-function* findDirsWithLessThanMinSize(tree: FileTree, size: number) {
+function* findDirsWithLessThanSize(tree: FileTree, size: number) {
   // If the current directory satisfies the requirements, yield it.
   if (tree.__size <= size) {
     yield tree.__size;
@@ -114,11 +114,32 @@ function* findDirsWithLessThanMinSize(tree: FileTree, size: number) {
       continue;
     }
 
-    yield* findDirsWithLessThanMinSize(fileOrDir, size);
+    yield* findDirsWithLessThanSize(fileOrDir, size);
   }
 }
 
-async function main() {
+// @ts-ignore -- It's a generator that returns itself
+function* findDirsWithGreaterThanSize(tree: FileTree, size: number) {
+  // If the current directory satisfies the requirements, yield it.
+  if (tree.__size >= size) {
+    yield tree.__size;
+  }
+
+  // Loop over all inner directories, yield any that also satisfy the requirements
+  for (const name in tree) {
+    const fileOrDir = tree[name];
+
+    if (name.startsWith('__') || name === '..') {
+      continue;
+    } else if (typeof fileOrDir === 'number') {
+      continue;
+    }
+
+    yield* findDirsWithGreaterThanSize(fileOrDir, size);
+  }
+}
+
+async function main(part: 1 | 2) {
   const fileTree: FileTree = {};
   let treePtr = fileTree;
 
@@ -138,22 +159,34 @@ async function main() {
   // Step 2: Annotate the tree with the size of each directory.
   annotateDirSizes(fileTree);
 
-  // Step 3: Find dirs with size <= 100000, add up all their sizes.
-  const dirs = findDirsWithLessThanMinSize(fileTree, 100000);
-  let sum = 0;
-  for (const d of dirs) {
-    sum += d;
-  }
+  if (part === 1) {
+    // Step 3: Find dirs with size <= 100000, add up all their sizes.
+    const dirs = findDirsWithLessThanSize(fileTree, 100_000);
+    let sum = 0;
+    for (const d of dirs) {
+      sum += d;
+    }
 
-  console.log('Sum:', sum);
+    console.log('Sum:', sum);
+  } else {
+    // Step 3: Find dirs large enough to satisfy the space requirements
+    const requiredSpace = 30_000_000;
+    const totalSpace = 70_000_000;
+
+    const spaceAvailable = totalSpace - (fileTree.__size as number);
+    const spaceNeededToDelete = requiredSpace - spaceAvailable;
+
+    const dirs = findDirsWithGreaterThanSize(fileTree, spaceNeededToDelete);
+    console.log('Should delete:', Math.min(...dirs));
+  }
 }
 
 if (import.meta.main) {
   const f = flags.parse(Deno.args);
   if (f.part == 1) {
-    main();
+    main(1);
   } else if (f.part == 2) {
-    main();
+    main(2);
   } else {
     console.error(bgRed('ERROR'), red('No part specified'));
     Deno.exit(1);
